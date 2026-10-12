@@ -1,0 +1,865 @@
+{
+  "generatedAt": "2026-09-15T10:53:03.441Z",
+  "summary": {
+    "totalBatches": 25,
+    "batchesWithInjectedDiscrepancy": 5,
+    "discrepancyRate": "20.0%",
+    "beneficiarySalesWithInjectedShortchange": 19
+  },
+  "batches": [
+    {
+      "batchID": "BATCH101",
+      "commodity": "Sugar",
+      "manufacturerName": "Delta Agro",
+      "manufacturingPlace": "Thanjavur",
+      "allocatedQty": 561,
+      "dispatchedQty": 561,
+      "sourceWarehouse": "East Depot",
+      "destinationShop": "Shop 34",
+      "receivedQty": 561,
+      "expectedDiscrepancy": false,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH101-BEN1",
+          "entitledQty": 12,
+          "actualQtyReceived": 9,
+          "expectedComplaint": true
+        },
+        {
+          "beneficiaryID": "BATCH101-BEN2",
+          "entitledQty": 8,
+          "actualQtyReceived": 8,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH101-BEN3",
+          "entitledQty": 14,
+          "actualQtyReceived": 14,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH101-BEN4",
+          "entitledQty": 7,
+          "actualQtyReceived": 7,
+          "expectedComplaint": false
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH102",
+      "commodity": "Kerosene",
+      "manufacturerName": "Sri Lakshmi Traders",
+      "manufacturingPlace": "Salem",
+      "allocatedQty": 566,
+      "dispatchedQty": 566,
+      "sourceWarehouse": "North Depot",
+      "destinationShop": "Shop 21",
+      "receivedQty": 511,
+      "expectedDiscrepancy": true,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH102-BEN1",
+          "entitledQty": 5,
+          "actualQtyReceived": 5,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH102-BEN2",
+          "entitledQty": 5,
+          "actualQtyReceived": 5,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH102-BEN3",
+          "entitledQty": 5,
+          "actualQtyReceived": 3,
+          "expectedComplaint": true
+        },
+        {
+          "beneficiaryID": "BATCH102-BEN4",
+          "entitledQty": 10,
+          "actualQtyReceived": 8,
+          "expectedComplaint": true
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH103",
+      "commodity": "Sugar",
+      "manufacturerName": "Delta Agro",
+      "manufacturingPlace": "Coimbatore",
+      "allocatedQty": 222,
+      "dispatchedQty": 222,
+      "sourceWarehouse": "North Depot",
+      "destinationShop": "Shop 5",
+      "receivedQty": 199,
+      "expectedDiscrepancy": true,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH103-BEN1",
+          "entitledQty": 7,
+          "actualQtyReceived": 7,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH103-BEN2",
+          "entitledQty": 7,
+          "actualQtyReceived": 7,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH103-BEN3",
+          "entitledQty": 13,
+          "actualQtyReceived": 13,
+          "expectedComplaint": false
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH104",
+      "commodity": "Sugar",
+      "manufacturerName": "Vellore Agro Co",
+      "manufacturingPlace": "Thanjavur",
+      "allocatedQty": 596,
+      "dispatchedQty": 596,
+      "sourceWarehouse": "East Depot",
+      "destinationShop": "Shop 47",
+      "receivedQty": 596,
+      "expectedDiscrepancy": false,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH104-BEN1",
+          "entitledQty": 15,
+          "actualQtyReceived": 9,
+          "expectedComplaint": true
+        },
+        {
+          "beneficiaryID": "BATCH104-BEN2",
+          "entitledQty": 9,
+          "actualQtyReceived": 9,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH104-BEN3",
+          "entitledQty": 6,
+          "actualQtyReceived": 5,
+          "expectedComplaint": true
+        },
+        {
+          "beneficiaryID": "BATCH104-BEN4",
+          "entitledQty": 8,
+          "actualQtyReceived": 8,
+          "expectedComplaint": false
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH105",
+      "commodity": "Sugar",
+      "manufacturerName": "Vellore Agro Co",
+      "manufacturingPlace": "Trichy",
+      "allocatedQty": 367,
+      "dispatchedQty": 367,
+      "sourceWarehouse": "East Depot",
+      "destinationShop": "Shop 12",
+      "receivedQty": 367,
+      "expectedDiscrepancy": false,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH105-BEN1",
+          "entitledQty": 10,
+          "actualQtyReceived": 10,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH105-BEN2",
+          "entitledQty": 6,
+          "actualQtyReceived": 6,
+          "expectedComplaint": false
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH106",
+      "commodity": "Wheat",
+      "manufacturerName": "ABC Mills",
+      "manufacturingPlace": "Madurai",
+      "allocatedQty": 558,
+      "dispatchedQty": 558,
+      "sourceWarehouse": "North Depot",
+      "destinationShop": "Shop 34",
+      "receivedQty": 558,
+      "expectedDiscrepancy": false,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH106-BEN1",
+          "entitledQty": 8,
+          "actualQtyReceived": 8,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH106-BEN2",
+          "entitledQty": 14,
+          "actualQtyReceived": 14,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH106-BEN3",
+          "entitledQty": 15,
+          "actualQtyReceived": 15,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH106-BEN4",
+          "entitledQty": 9,
+          "actualQtyReceived": 9,
+          "expectedComplaint": false
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH107",
+      "commodity": "Wheat",
+      "manufacturerName": "Delta Agro",
+      "manufacturingPlace": "Madurai",
+      "allocatedQty": 743,
+      "dispatchedQty": 743,
+      "sourceWarehouse": "South Depot",
+      "destinationShop": "Shop 12",
+      "receivedQty": 671,
+      "expectedDiscrepancy": true,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH107-BEN1",
+          "entitledQty": 6,
+          "actualQtyReceived": 6,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH107-BEN2",
+          "entitledQty": 6,
+          "actualQtyReceived": 6,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH107-BEN3",
+          "entitledQty": 12,
+          "actualQtyReceived": 12,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH107-BEN4",
+          "entitledQty": 9,
+          "actualQtyReceived": 6,
+          "expectedComplaint": true
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH108",
+      "commodity": "Sugar",
+      "manufacturerName": "Vellore Agro Co",
+      "manufacturingPlace": "Salem",
+      "allocatedQty": 676,
+      "dispatchedQty": 676,
+      "sourceWarehouse": "Central Warehouse",
+      "destinationShop": "Shop 34",
+      "receivedQty": 676,
+      "expectedDiscrepancy": false,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH108-BEN1",
+          "entitledQty": 14,
+          "actualQtyReceived": 14,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH108-BEN2",
+          "entitledQty": 5,
+          "actualQtyReceived": 5,
+          "expectedComplaint": false
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH109",
+      "commodity": "Kerosene",
+      "manufacturerName": "ABC Mills",
+      "manufacturingPlace": "Thanjavur",
+      "allocatedQty": 494,
+      "dispatchedQty": 494,
+      "sourceWarehouse": "East Depot",
+      "destinationShop": "Shop 12",
+      "receivedQty": 467,
+      "expectedDiscrepancy": true,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH109-BEN1",
+          "entitledQty": 12,
+          "actualQtyReceived": 12,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH109-BEN2",
+          "entitledQty": 8,
+          "actualQtyReceived": 8,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH109-BEN3",
+          "entitledQty": 5,
+          "actualQtyReceived": 5,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH109-BEN4",
+          "entitledQty": 15,
+          "actualQtyReceived": 15,
+          "expectedComplaint": false
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH110",
+      "commodity": "Sugar",
+      "manufacturerName": "Sri Lakshmi Traders",
+      "manufacturingPlace": "Trichy",
+      "allocatedQty": 437,
+      "dispatchedQty": 437,
+      "sourceWarehouse": "Central Warehouse",
+      "destinationShop": "Shop 12",
+      "receivedQty": 437,
+      "expectedDiscrepancy": false,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH110-BEN1",
+          "entitledQty": 12,
+          "actualQtyReceived": 12,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH110-BEN2",
+          "entitledQty": 8,
+          "actualQtyReceived": 8,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH110-BEN3",
+          "entitledQty": 8,
+          "actualQtyReceived": 8,
+          "expectedComplaint": false
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH111",
+      "commodity": "Wheat",
+      "manufacturerName": "Coastal Foodgrains",
+      "manufacturingPlace": "Salem",
+      "allocatedQty": 379,
+      "dispatchedQty": 379,
+      "sourceWarehouse": "South Depot",
+      "destinationShop": "Shop 21",
+      "receivedQty": 379,
+      "expectedDiscrepancy": false,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH111-BEN1",
+          "entitledQty": 7,
+          "actualQtyReceived": 5,
+          "expectedComplaint": true
+        },
+        {
+          "beneficiaryID": "BATCH111-BEN2",
+          "entitledQty": 8,
+          "actualQtyReceived": 6,
+          "expectedComplaint": true
+        },
+        {
+          "beneficiaryID": "BATCH111-BEN3",
+          "entitledQty": 5,
+          "actualQtyReceived": 5,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH111-BEN4",
+          "entitledQty": 7,
+          "actualQtyReceived": 7,
+          "expectedComplaint": false
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH112",
+      "commodity": "Wheat",
+      "manufacturerName": "Sri Lakshmi Traders",
+      "manufacturingPlace": "Salem",
+      "allocatedQty": 292,
+      "dispatchedQty": 292,
+      "sourceWarehouse": "North Depot",
+      "destinationShop": "Shop 47",
+      "receivedQty": 292,
+      "expectedDiscrepancy": false,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH112-BEN1",
+          "entitledQty": 14,
+          "actualQtyReceived": 14,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH112-BEN2",
+          "entitledQty": 9,
+          "actualQtyReceived": 6,
+          "expectedComplaint": true
+        },
+        {
+          "beneficiaryID": "BATCH112-BEN3",
+          "entitledQty": 13,
+          "actualQtyReceived": 13,
+          "expectedComplaint": false
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH113",
+      "commodity": "Kerosene",
+      "manufacturerName": "Vellore Agro Co",
+      "manufacturingPlace": "Madurai",
+      "allocatedQty": 706,
+      "dispatchedQty": 706,
+      "sourceWarehouse": "South Depot",
+      "destinationShop": "Shop 47",
+      "receivedQty": 706,
+      "expectedDiscrepancy": false,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH113-BEN1",
+          "entitledQty": 5,
+          "actualQtyReceived": 4,
+          "expectedComplaint": true
+        },
+        {
+          "beneficiaryID": "BATCH113-BEN2",
+          "entitledQty": 12,
+          "actualQtyReceived": 12,
+          "expectedComplaint": false
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH114",
+      "commodity": "Kerosene",
+      "manufacturerName": "ABC Mills",
+      "manufacturingPlace": "Coimbatore",
+      "allocatedQty": 560,
+      "dispatchedQty": 560,
+      "sourceWarehouse": "Central Warehouse",
+      "destinationShop": "Shop 5",
+      "receivedQty": 560,
+      "expectedDiscrepancy": false,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH114-BEN1",
+          "entitledQty": 14,
+          "actualQtyReceived": 14,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH114-BEN2",
+          "entitledQty": 8,
+          "actualQtyReceived": 8,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH114-BEN3",
+          "entitledQty": 11,
+          "actualQtyReceived": 11,
+          "expectedComplaint": false
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH115",
+      "commodity": "Sugar",
+      "manufacturerName": "Coastal Foodgrains",
+      "manufacturingPlace": "Madurai",
+      "allocatedQty": 589,
+      "dispatchedQty": 589,
+      "sourceWarehouse": "Central Warehouse",
+      "destinationShop": "Shop 34",
+      "receivedQty": 589,
+      "expectedDiscrepancy": false,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH115-BEN1",
+          "entitledQty": 14,
+          "actualQtyReceived": 14,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH115-BEN2",
+          "entitledQty": 12,
+          "actualQtyReceived": 10,
+          "expectedComplaint": true
+        },
+        {
+          "beneficiaryID": "BATCH115-BEN3",
+          "entitledQty": 6,
+          "actualQtyReceived": 5,
+          "expectedComplaint": true
+        },
+        {
+          "beneficiaryID": "BATCH115-BEN4",
+          "entitledQty": 9,
+          "actualQtyReceived": 9,
+          "expectedComplaint": false
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH116",
+      "commodity": "Wheat",
+      "manufacturerName": "Sri Lakshmi Traders",
+      "manufacturingPlace": "Trichy",
+      "allocatedQty": 511,
+      "dispatchedQty": 511,
+      "sourceWarehouse": "East Depot",
+      "destinationShop": "Shop 21",
+      "receivedQty": 511,
+      "expectedDiscrepancy": false,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH116-BEN1",
+          "entitledQty": 10,
+          "actualQtyReceived": 10,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH116-BEN2",
+          "entitledQty": 8,
+          "actualQtyReceived": 8,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH116-BEN3",
+          "entitledQty": 6,
+          "actualQtyReceived": 6,
+          "expectedComplaint": false
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH117",
+      "commodity": "Rice",
+      "manufacturerName": "Coastal Foodgrains",
+      "manufacturingPlace": "Trichy",
+      "allocatedQty": 281,
+      "dispatchedQty": 281,
+      "sourceWarehouse": "Central Warehouse",
+      "destinationShop": "Shop 47",
+      "receivedQty": 263,
+      "expectedDiscrepancy": true,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH117-BEN1",
+          "entitledQty": 5,
+          "actualQtyReceived": 5,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH117-BEN2",
+          "entitledQty": 9,
+          "actualQtyReceived": 9,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH117-BEN3",
+          "entitledQty": 6,
+          "actualQtyReceived": 6,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH117-BEN4",
+          "entitledQty": 5,
+          "actualQtyReceived": 5,
+          "expectedComplaint": false
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH118",
+      "commodity": "Sugar",
+      "manufacturerName": "Vellore Agro Co",
+      "manufacturingPlace": "Thanjavur",
+      "allocatedQty": 650,
+      "dispatchedQty": 650,
+      "sourceWarehouse": "North Depot",
+      "destinationShop": "Shop 12",
+      "receivedQty": 650,
+      "expectedDiscrepancy": false,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH118-BEN1",
+          "entitledQty": 11,
+          "actualQtyReceived": 11,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH118-BEN2",
+          "entitledQty": 10,
+          "actualQtyReceived": 9,
+          "expectedComplaint": true
+        },
+        {
+          "beneficiaryID": "BATCH118-BEN3",
+          "entitledQty": 6,
+          "actualQtyReceived": 5,
+          "expectedComplaint": true
+        },
+        {
+          "beneficiaryID": "BATCH118-BEN4",
+          "entitledQty": 12,
+          "actualQtyReceived": 12,
+          "expectedComplaint": false
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH119",
+      "commodity": "Kerosene",
+      "manufacturerName": "Coastal Foodgrains",
+      "manufacturingPlace": "Trichy",
+      "allocatedQty": 370,
+      "dispatchedQty": 370,
+      "sourceWarehouse": "South Depot",
+      "destinationShop": "Shop 12",
+      "receivedQty": 370,
+      "expectedDiscrepancy": false,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH119-BEN1",
+          "entitledQty": 7,
+          "actualQtyReceived": 7,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH119-BEN2",
+          "entitledQty": 15,
+          "actualQtyReceived": 15,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH119-BEN3",
+          "entitledQty": 10,
+          "actualQtyReceived": 10,
+          "expectedComplaint": false
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH120",
+      "commodity": "Wheat",
+      "manufacturerName": "Coastal Foodgrains",
+      "manufacturingPlace": "Madurai",
+      "allocatedQty": 496,
+      "dispatchedQty": 496,
+      "sourceWarehouse": "South Depot",
+      "destinationShop": "Shop 12",
+      "receivedQty": 496,
+      "expectedDiscrepancy": false,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH120-BEN1",
+          "entitledQty": 12,
+          "actualQtyReceived": 12,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH120-BEN2",
+          "entitledQty": 11,
+          "actualQtyReceived": 11,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH120-BEN3",
+          "entitledQty": 15,
+          "actualQtyReceived": 15,
+          "expectedComplaint": false
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH121",
+      "commodity": "Kerosene",
+      "manufacturerName": "Sri Lakshmi Traders",
+      "manufacturingPlace": "Coimbatore",
+      "allocatedQty": 727,
+      "dispatchedQty": 727,
+      "sourceWarehouse": "East Depot",
+      "destinationShop": "Shop 34",
+      "receivedQty": 727,
+      "expectedDiscrepancy": false,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH121-BEN1",
+          "entitledQty": 9,
+          "actualQtyReceived": 9,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH121-BEN2",
+          "entitledQty": 10,
+          "actualQtyReceived": 10,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH121-BEN3",
+          "entitledQty": 11,
+          "actualQtyReceived": 11,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH121-BEN4",
+          "entitledQty": 12,
+          "actualQtyReceived": 10,
+          "expectedComplaint": true
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH122",
+      "commodity": "Rice",
+      "manufacturerName": "Sri Lakshmi Traders",
+      "manufacturingPlace": "Salem",
+      "allocatedQty": 643,
+      "dispatchedQty": 643,
+      "sourceWarehouse": "East Depot",
+      "destinationShop": "Shop 21",
+      "receivedQty": 643,
+      "expectedDiscrepancy": false,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH122-BEN1",
+          "entitledQty": 14,
+          "actualQtyReceived": 14,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH122-BEN2",
+          "entitledQty": 10,
+          "actualQtyReceived": 10,
+          "expectedComplaint": false
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH123",
+      "commodity": "Wheat",
+      "manufacturerName": "Coastal Foodgrains",
+      "manufacturingPlace": "Coimbatore",
+      "allocatedQty": 466,
+      "dispatchedQty": 466,
+      "sourceWarehouse": "South Depot",
+      "destinationShop": "Shop 34",
+      "receivedQty": 466,
+      "expectedDiscrepancy": false,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH123-BEN1",
+          "entitledQty": 10,
+          "actualQtyReceived": 8,
+          "expectedComplaint": true
+        },
+        {
+          "beneficiaryID": "BATCH123-BEN2",
+          "entitledQty": 6,
+          "actualQtyReceived": 5,
+          "expectedComplaint": true
+        },
+        {
+          "beneficiaryID": "BATCH123-BEN3",
+          "entitledQty": 14,
+          "actualQtyReceived": 14,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH123-BEN4",
+          "entitledQty": 12,
+          "actualQtyReceived": 11,
+          "expectedComplaint": true
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH124",
+      "commodity": "Sugar",
+      "manufacturerName": "Sri Lakshmi Traders",
+      "manufacturingPlace": "Trichy",
+      "allocatedQty": 746,
+      "dispatchedQty": 746,
+      "sourceWarehouse": "East Depot",
+      "destinationShop": "Shop 5",
+      "receivedQty": 746,
+      "expectedDiscrepancy": false,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH124-BEN1",
+          "entitledQty": 6,
+          "actualQtyReceived": 6,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH124-BEN2",
+          "entitledQty": 7,
+          "actualQtyReceived": 7,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH124-BEN3",
+          "entitledQty": 8,
+          "actualQtyReceived": 8,
+          "expectedComplaint": false
+        }
+      ]
+    },
+    {
+      "batchID": "BATCH125",
+      "commodity": "Wheat",
+      "manufacturerName": "Coastal Foodgrains",
+      "manufacturingPlace": "Thanjavur",
+      "allocatedQty": 669,
+      "dispatchedQty": 669,
+      "sourceWarehouse": "East Depot",
+      "destinationShop": "Shop 34",
+      "receivedQty": 669,
+      "expectedDiscrepancy": false,
+      "beneficiaries": [
+        {
+          "beneficiaryID": "BATCH125-BEN1",
+          "entitledQty": 6,
+          "actualQtyReceived": 5,
+          "expectedComplaint": true
+        },
+        {
+          "beneficiaryID": "BATCH125-BEN2",
+          "entitledQty": 8,
+          "actualQtyReceived": 8,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH125-BEN3",
+          "entitledQty": 7,
+          "actualQtyReceived": 7,
+          "expectedComplaint": false
+        },
+        {
+          "beneficiaryID": "BATCH125-BEN4",
+          "entitledQty": 11,
+          "actualQtyReceived": 11,
+          "expectedComplaint": false
+        }
+      ]
+    }
+  ]
+}

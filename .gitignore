@@ -1,0 +1,60 @@
+# Node.js dependencies
+node_modules/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Build output
+dist/
+build/
+coverage/
+
+# Logs
+*.log
+
+# Python generated files
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local editor files
+.vscode/
+
+
+# Hyperledger Fabric samples and generated network data
+/fabric-samples/
+
+# Fabric private keys and generated identities
+**/keystore/
+**/wallet/
+**/wallets/
+**/msp/keystore/
+**/tls/server.key
+**/tls/client.key
+
+# Windows metadata files
+*.Zone.Identifier
+# Vendored Go dependencies
+chaincode/rationtrace-cc/vendor/
+
+# Fabric samples
+/fabric-samples/
+# Hyperledger Fabric samples and generated network data
+/fabric-samples/
+
+# Fabric private keys and generated identities
+**/keystore/
+**/wallet/
+**/wallets/
+**/msp/keystore/
+**/tls/server.key
+**/tls/client.key
+
+# Windows metadata files
+*.Zone.Identifier
+
+# Exclude the vendored test environment file
+chaincode/rationtrace-cc/vendor/github.com/gobuffalo/envy/.env
