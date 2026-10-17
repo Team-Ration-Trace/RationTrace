@@ -509,7 +509,7 @@ app.get('/api/public/qr/:batchID', asyncRoute(async (req, res) => {
     return res.status(404).json({ error: 'Batch not found' });
   }
   const trackingURL =
-  `https://rationtrace-frontend.onrender.com/track/${encodeURIComponent(batchID)}`;
+  `https://rationtrace-frontend-ky3m.onrender.com/track/${encodeURIComponent(batchID)}`;
 
   const qrCode = await QRCode.toDataURL(trackingURL);
 
