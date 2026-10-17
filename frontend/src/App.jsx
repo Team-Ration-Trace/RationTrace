@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { api } from './api';
 import { login, logout, getRole, getUsername, isLoggedIn } from './auth';
 import './App.css';
-
+import './TrackingPage.css';
 const SECTIONS = [
   { id: 'allocate', label: 'Allocate' },
   { id: 'dispatch', label: 'Dispatch' },
@@ -385,38 +385,120 @@ function LoginScreen({ onLoggedIn }) {
     }
   };
 
-  return (
-    <div className="login-shell">
-      <div className="login-card">
-        <div className="login-seal">
+  /* Replace ONLY the return (...) inside LoginScreen in App.jsx with this JSX.
+   Keep handleSubmit, useState, and all authentication logic unchanged. */
+return (
+  <div className="login-shell login-shell--split">
+    <section className="login-intro" aria-label="RationTrace introduction">
+      <div className="intro-brand">
+        <span className="intro-brand-seal" aria-hidden="true">
           <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="1.5" />
-            <circle cx="32" cy="32" r="24" fill="none" stroke="currentColor" strokeWidth="1" />
-            <path
-              d="M32 16c3 6 3 10 0 16 -3-6-3-10 0-16Z M32 32c3 6 3 10 0 16 -3-6-3-10 0-16Z M16 32c6-3 10-3 16 0 -6 3-10 3-16 0Z M32 32c6-3 10-3 16 0 -6 3-10 3-16 0Z"
-              fill="currentColor"
-            />
+            <circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" strokeWidth="1.5" />
+            <circle cx="32" cy="32" r="23" fill="none" stroke="currentColor" strokeWidth="1" />
+            <path d="M32 13c4 7 4 12 0 19-4-7-4-12 0-19ZM32 32c4 7 4 12 0 19-4-7-4-12 0-19ZM13 32c7-4 12-4 19 0-7 4-12 4-19 0ZM32 32c7-4 12-4 19 0-7 4-12 4-19 0Z" fill="currentColor" />
           </svg>
+        </span>
+        <span>RATIONTRACE</span>
+      </div>
+
+      <div className="intro-copy">
+        <p className="intro-kicker">PUBLIC DISTRIBUTION SYSTEM</p>
+        <h1>Every ration batch.<br /><span>Accounted for.</span></h1>
+        <p className="intro-description">
+          A transparent, traceable record of ration stock from government allocation
+          to warehouse dispatch and distribution at the ration shop.
+        </p>
+
+        <div className="intro-feature-list">
+          <div className="intro-feature">
+            <span className="intro-feature-icon" aria-hidden="true">01</span>
+            <div>
+              <strong>Traceable stock movement</strong>
+              <p>Follow batch records across each distribution stage.</p>
+            </div>
+          </div>
+          <div className="intro-feature">
+            <span className="intro-feature-icon" aria-hidden="true">02</span>
+            <div>
+              <strong>Discrepancy visibility</strong>
+              <p>Bring quantity mismatches to the attention of authorized reviewers.</p>
+            </div>
+          </div>
+          <div className="intro-feature">
+            <span className="intro-feature-icon" aria-hidden="true">03</span>
+            <div>
+              <strong>Permissioned access</strong>
+              <p>Role-based access for participating system users.</p>
+            </div>
+          </div>
         </div>
-        <p className="login-eyebrow">Public Distribution System</p>
-        <h1>RationTrace</h1>
-        <p className="tagline">Permissioned ledger — official access portal</p>
+      </div>
+
+      <div className="intro-footer">
+        <span className="intro-footer-dot" />
+        <span>PUBLIC SERVICE · STOCK TRANSPARENCY · ACCOUNTABILITY</span>
+      </div>
+    </section>
+
+    <section className="login-panel" aria-label="Sign in">
+      <div className="login-panel-top">
+        <span className="login-panel-label">OFFICIAL ACCESS</span>
+        <span className="login-panel-rule" />
+      </div>
+
+      <div className="login-form-wrap">
+        <div className="login-form-heading">
+          <p className="login-eyebrow">WELCOME BACK</p>
+          <h2>Sign in to RationTrace</h2>
+          <p>Use the account issued for your system role.</p>
+        </div>
+
         <form onSubmit={handleSubmit} autoComplete="off">
           <label className="ledger-field">
             <span>Username</span>
-            <input value={username} onChange={(e) => setUsername(e.target.value)} autoComplete="off" required />
+            <input
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              autoComplete="username"
+              placeholder="Enter your username"
+              required
+            />
           </label>
+
           <label className="ledger-field">
             <span>Password</span>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+              placeholder="Enter your password"
+              required
+            />
           </label>
-          <button type="submit" disabled={busy}>{busy ? 'Signing in…' : 'Sign in'}</button>
-          {error && <div className="action-result is-error">{error}</div>}
+
+          {error && <div className="action-result is-error" role="alert">{error}</div>}
+
+          <button type="submit" disabled={busy}>
+            {busy ? 'Signing in…' : 'Sign in securely'}
+            {!busy && <span aria-hidden="true">→</span>}
+          </button>
         </form>
-        <p className="login-footnote">Access issued per role by the system administrator</p>
+
+        <div className="login-security-note">
+          <span className="security-mark" aria-hidden="true">✓</span>
+          <p><strong>Authorized users only</strong><br />Access permissions depend on your assigned role.</p>
+        </div>
       </div>
-    </div>
-  );
+
+      <div className="login-panel-bottom">
+        <span>RATIONTRACE</span>
+        <span>Permissioned ledger portal</span>
+      </div>
+    </section>
+  </div>
+);
+
 }
 
 // ------------------------------------------------------------------
@@ -595,102 +677,260 @@ if (!loggedIn) {
     </div>
   );
 }
+
 function PublicTrackingPage({ batchID }) {
   const [record, setRecord] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(
-      `https://wall-maker-brooks-sparc.trycloudflare.com/api/public/track/${encodeURIComponent(batchID)}`
-    )
-      .then(async (response) => {
-        const data = await response.json();
-        if (!response.ok) {
-          throw new Error(data.error || 'Batch not found');
+    const supabaseURL = import.meta.env.VITE_SUPABASE_URL;
+    const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+    async function loadTracking() {
+      try {
+        if (!supabaseURL || !supabaseKey) {
+          throw new Error('Public tracking is not configured yet.');
         }
-        setRecord(data);
-      })
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
+
+        const url = new URL('/rest/v1/batch_tracking', supabaseURL);
+        url.searchParams.set('batch_id', `eq.${batchID}`);
+        url.searchParams.set('select', '*');
+        url.searchParams.set('limit', '1');
+
+        const response = await fetch(url, {
+          headers: {
+            apikey: supabaseKey,
+            Authorization: `Bearer ${supabaseKey}`,
+          },
+        });
+
+        const rows = await response.json();
+
+        if (!response.ok) {
+          throw new Error('Could not retrieve public tracking data.');
+        }
+        if (!rows.length) {
+          throw new Error('Batch not found.');
+        }
+
+        const row = rows[0];
+        const details = row.tracking_data || {};
+
+        setRecord({
+          batchID: row.batch_id,
+          commodity: row.commodity,
+          status: row.status,
+          allocatedQty: Number(row.allocated_quantity || 0),
+          dispatchedQty: Number(row.dispatched_quantity || 0),
+          receivedQty: Number(row.delivered_quantity || 0),
+          soldQty: Number(details.soldQty || 0),
+          returnedQty: Number(details.returnedQty || 0),
+          discrepancyFlag: Boolean(details.discrepancyFlag),
+          discrepancySeverity: details.discrepancySeverity || 'Under review',
+          lastUpdatedAt: row.last_updated,
+          sourceLocation: row.source_location,
+          destinationLocation: row.destination_location,
+          allocationDate: row.allocation_date,
+          discrepancyLog: Array.isArray(details.discrepancyLog)
+            ? details.discrepancyLog
+            : [],
+        });
+      } catch (err) {
+        setError(err.message || 'Unable to load tracking data.');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadTracking();
   }, [batchID]);
 
   const stages = [
-    { label: 'Allocated', done: true },
-    { label: 'Dispatched', done: ['DISPATCHED', 'RECEIVED', 'SELLING', 'CLOSED'].includes(record?.status) },
-    { label: 'Received at ration shop', done: ['RECEIVED', 'SELLING', 'CLOSED'].includes(record?.status) },
-    { label: 'Distribution to beneficiaries', done: ['SELLING', 'CLOSED'].includes(record?.status) },
-    { label: 'Batch closed', done: record?.status === 'CLOSED' },
+    { label: 'Allocated by government', done: true, note: 'Batch entered into the distribution ledger' },
+    { label: 'Dispatched from warehouse', done: ['DISPATCHED', 'RECEIVED', 'SELLING', 'CLOSED'].includes(record?.status), note: 'Stock dispatch recorded' },
+    { label: 'Received at ration shop', done: ['RECEIVED', 'SELLING', 'CLOSED'].includes(record?.status), note: 'Shop receipt recorded' },
+    { label: 'Distributed to beneficiaries', done: ['SELLING', 'CLOSED'].includes(record?.status), note: 'Beneficiary distribution activity recorded' },
+    { label: 'Batch closed', done: record?.status === 'CLOSED', note: 'Final batch reconciliation completed' },
   ];
 
-  return (
-    <div style={{ maxWidth: 600, margin: '0 auto', padding: 20, fontFamily: 'Arial, sans-serif', color: '#18352a' }}>
-      <h1 style={{ color: '#176b45' }}>RationTrace</h1>
-      <p>Public Distribution System · Batch Tracking</p>
-      <hr />
+  const stockItems = [
+    { label: 'Allocated', quantity: record?.allocatedQty, note: 'Government allocation' },
+    { label: 'Dispatched', quantity: record?.dispatchedQty, note: 'Left warehouse' },
+    { label: 'Received', quantity: record?.receivedQty, note: 'Shop receipt' },
+    { label: 'Distributed', quantity: record?.soldQty, note: 'Beneficiary sales', highlight: true },
+    { label: 'Returned', quantity: record?.returnedQty, note: 'Returned stock' },
+  ];
 
-      {loading && <p>Loading tracking information...</p>}
-      {error && <p style={{ color: '#b42318' }}>{error}</p>}
+  const status = String(record?.status || 'UNKNOWN').toUpperCase();
+  const dateText = (value) => {
+    if (!value) return '';
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? '' : date.toLocaleString();
+  };
+
+  return (
+    <div className="public-tracking-page">
+      <header className="tracking-topbar">
+        <div className="tracking-brand">
+          <span className="tracking-brand-seal" aria-hidden="true">✦</span>
+          <div>
+            <div className="tracking-brand-name">RationTrace</div>
+            <div className="tracking-brand-subtitle">Public Distribution System · Batch Tracking</div>
+          </div>
+        </div>
+        <span className="tracking-public-badge">Public tracking</span>
+      </header>
+
+      <div className="tracking-page-heading">
+        <div>
+          <p className="tracking-page-eyebrow">Supply chain transparency</p>
+          <h1>Batch journey</h1>
+          <p className="tracking-page-description">
+            View recorded stock movement from allocation through distribution.
+          </p>
+        </div>
+        <div className="tracking-reference">
+          <span>Batch reference</span>
+          <strong>{batchID}</strong>
+        </div>
+      </div>
+
+      {loading && (
+        <div className="tracking-panel" role="status">
+          Loading batch tracking information…
+        </div>
+      )}
+
+      {error && (
+        <div className="tracking-alert" role="alert">
+          <span className="tracking-alert-icon" aria-hidden="true">!</span>
+          <div>
+            <strong>Tracking information unavailable</strong>
+            <p>{error}</p>
+          </div>
+        </div>
+      )}
 
       {record && (
         <>
-          <p style={{ color: '#667085' }}>BATCH ID</p>
-          <h2>{record.batchID}</h2>
-          <p>Commodity: <strong>{record.commodity}</strong></p>
-          <p>Current status: <strong>{record.status}</strong></p>
-
           {record.discrepancyFlag && (
-            <div style={{ padding: 12, background: '#fff0e5', color: '#9a3412', borderRadius: 8 }}>
-              Warning: A stock discrepancy has been flagged.
-              Severity: {record.discrepancySeverity}
-            </div>
-          )}
-
-          <h3>Tracking timeline</h3>
-          {stages.map((stage, index) => (
-            <div key={stage.label} style={{ display: 'flex', gap: 12, margin: '18px 0' }}>
-              <div style={{
-                width: 28,
-                height: 28,
-                borderRadius: '50%',
-                background: stage.done ? '#176b45' : '#e5e7eb',
-                color: stage.done ? 'white' : '#667085',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0
-              }}>
-                {stage.done ? '✓' : index + 1}
-              </div>
+            <div className="tracking-alert" role="alert">
+              <span className="tracking-alert-icon" aria-hidden="true">!</span>
               <div>
-                <strong>{stage.label}</strong>
-                <p style={{ margin: '4px 0', color: '#667085' }}>
-                  {stage.done ? 'Completed' : 'Pending'}
+                <strong>Stock discrepancy flagged for review</strong>
+                <p>
+                  A quantity discrepancy or beneficiary complaint has been recorded.
+                  Severity: {record.discrepancySeverity}.
                 </p>
               </div>
             </div>
-          ))}
+          )}
 
-          <h3>Stock summary</h3>
-          {[
-            ['Allocated', record.allocatedQty],
-            ['Dispatched', record.dispatchedQty],
-            ['Received', record.receivedQty],
-            ['Distributed', record.soldQty],
-            ['Returned', record.returnedQty],
-          ].map(([label, quantity]) => (
-            <div key={label} style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid #e5e7eb' }}>
-              <span>{label}</span>
-              <strong>{quantity ?? 0}</strong>
+          <section className="tracking-overview-card">
+            <div>
+              <p className="tracking-overview-label">Batch overview</p>
+              <h2>{record.commodity || 'Ration commodity'}</h2>
+              <div className="tracking-overview-meta">
+                <span>Batch ID: <strong>{record.batchID}</strong></span>
+                {record.sourceLocation && <span>From: {record.sourceLocation}</span>}
+                {record.destinationLocation && <span>To: {record.destinationLocation}</span>}
+              </div>
             </div>
-          ))}
+            <span className={`tracking-status-pill ${record.discrepancyFlag ? 'is-warning' : ''}`}>
+              {status.replaceAll('_', ' ')}
+            </span>
+          </section>
 
-          <p style={{ marginTop: 24, color: '#667085', fontSize: 13 }}>
-            Last updated: {record.lastUpdatedAt ? new Date(record.lastUpdatedAt).toLocaleString() : 'Not available'}
-          </p>
-          <p style={{ color: '#667085', fontSize: 12 }}>
-            Public batch information · No beneficiary personal data displayed
-          </p>
+          <div className="tracking-content-grid">
+            <section className="tracking-panel">
+              <div className="tracking-panel-heading">
+                <div>
+                  <h2>Tracking timeline</h2>
+                  <p>Recorded milestones for this ration batch</p>
+                </div>
+                <span className="tracking-panel-tag">5 stages</span>
+              </div>
+
+              <div className="tracking-timeline">
+                {stages.map((stage, index) => (
+                  <div
+                    key={stage.label}
+                    className={`tracking-timeline-item ${stage.done ? 'is-complete' : ''}`}
+                  >
+                    <div className="tracking-timeline-marker" aria-hidden="true">
+                      {stage.done ? '✓' : index + 1}
+                    </div>
+                    <div className="tracking-timeline-copy">
+                      <strong>{stage.label}</strong>
+                      <p>{stage.done ? 'Completed · recorded in the system' : 'Awaiting recorded completion'}</p>
+                      {index === 0 && record.allocationDate && (
+                        <time>{dateText(record.allocationDate)}</time>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="tracking-panel">
+              <div className="tracking-panel-heading">
+                <div>
+                  <h2>Stock summary</h2>
+                  <p>Quantities recorded for this batch</p>
+                </div>
+                <span className="tracking-panel-tag">Quantity</span>
+              </div>
+
+              <div className="tracking-stock-grid">
+                {stockItems.map((item) => (
+                  <div
+                    key={item.label}
+                    className={`tracking-stock-card ${item.highlight ? 'is-highlight' : ''} ${item.label === 'Returned' && item.quantity > 0 ? 'is-alert' : ''}`}
+                  >
+                    <span>{item.label}</span>
+                    <strong>{item.quantity ?? 0}</strong>
+                    <small>{item.note}</small>
+                  </div>
+                ))}
+              </div>
+
+              <div className="tracking-location-summary">
+                <div className="tracking-location-row">
+                  <span>Source warehouse</span>
+                  <strong>{record.sourceLocation || 'Not recorded'}</strong>
+                </div>
+                <div className="tracking-location-row">
+                  <span>Destination shop</span>
+                  <strong>{record.destinationLocation || 'Not recorded'}</strong>
+                </div>
+                <div className="tracking-location-row">
+                  <span>Last updated</span>
+                  <strong>{dateText(record.lastUpdatedAt) || 'Not available'}</strong>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          {record.discrepancyLog.length > 0 && (
+            <section className="tracking-panel" style={{ marginTop: 20 }}>
+              <div className="tracking-panel-heading">
+                <div>
+                  <h2>Recorded discrepancy details</h2>
+                  <p>Issues recorded for authorized review</p>
+                </div>
+                <span className="tracking-panel-tag">Review</span>
+              </div>
+              <ul style={{ margin: 0, paddingLeft: 20, color: '#8E3025', lineHeight: 1.8 }}>
+                {record.discrepancyLog.map((entry, index) => <li key={index}>{String(entry)}</li>)}
+              </ul>
+            </section>
+          )}
+
+          <footer className="tracking-footer">
+            <span><strong>RationTrace</strong> · Public batch information</span>
+            <span>Beneficiary personal details are not displayed.</span>
+          </footer>
         </>
       )}
     </div>

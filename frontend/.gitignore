@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+# Environment files - keep credentials out of Git
+.env
+.env.*
+!.env.example

@@ -11,6 +11,7 @@
 //   5. Startup
 
 'use strict';
+require('dotenv').config();
 
 const path = require('path');
 const crypto = require('crypto');
@@ -22,6 +23,19 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const QRCode = require('qrcode');
+const { createClient } = require('@supabase/supabase-js');
+const WebSocket = require('ws');
+
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SECRET_KEY,
+  {
+    realtime: {
+      transport: WebSocket
+    }
+  }
+);
+
 // ------------------------------------------------------------------
 // 1. FABRIC CONNECTION SETUP
 // ------------------------------------------------------------------
@@ -85,6 +99,55 @@ function parseResult(resultBytes) {
   const text = Buffer.from(resultBytes).toString('utf8');
   if (!text) return null;
   return JSON.parse(text);
+}
+
+async function syncBatchToSupabase(batchID) {
+  const result = await contract.evaluateTransaction(
+    'GetBatchHistory',
+    batchID
+  );
+
+  const record = parseResult(result);
+
+  if (!record || !record.batchID) {
+    throw new Error(`Batch ${batchID} not found in Fabric`);
+  }
+
+  const { error } = await supabase
+    .from('batch_tracking')
+    .upsert({
+      batch_id: record.batchID,
+      commodity: record.commodity || 'Unknown',
+      allocated_quantity: Number(record.allocatedQty || 0),
+      dispatched_quantity: Number(record.dispatchedQty || 0),
+      delivered_quantity: Number(record.receivedQty || 0),
+      source_location: record.sourceWarehouse || '',
+      destination_location: record.destinationShop || '',
+      status: String(record.status || 'ALLOCATED'),
+      last_updated: record.lastUpdatedAt || new Date().toISOString(),
+      tracking_data: {
+        manufacturerName: record.manufacturerName || '',
+        manufacturingPlace: record.manufacturingPlace || '',
+        dispatcherName: record.dispatcherName || '',
+        dispatchPlace: record.dispatchPlace || '',
+        receiverName: record.receiverName || '',
+        currentHolder: record.currentHolder || '',
+        soldQty: Number(record.soldQty || 0),
+        returnedQty: Number(record.returnedQty || 0),
+        createdAt: record.createdAt || null,
+        lastUpdatedAt: record.lastUpdatedAt || null,
+        discrepancyFlag:Boolean(record.discrepancyFlag) ||(Array.isArray(record.discrepancyLog) && record.discrepancyLog.length > 0),
+        discrepancySeverity: record.discrepancySeverity || '',
+        discrepancyLog: record.discrepancyLog || [],
+        auditTrail: record.auditTrail || []
+      }
+    }, {
+      onConflict: 'batch_id'
+    });
+
+  if (error) {
+    throw new Error(`Supabase sync failed: ${error.message}`);
+  }
 }
 
 // ------------------------------------------------------------------
@@ -154,7 +217,21 @@ function requireRole(...allowedRoles) {
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.get('/api/test-supabase', async (req, res) => {
+  try {
+    const { error } = await supabase
+      .from('batch_tracking')
+      .select('batch_id')
+      .limit(1);
 
+    if (error) throw error;
+
+    res.json({ status: 'connected' });
+  } catch (err) {
+    console.error('Supabase test failed:', err.message);
+    res.status(500).json({ status: 'error' });
+  }
+});
 function asyncRoute(handler) {
   return (req, res) => {
     handler(req, res).catch((err) => {
@@ -184,59 +261,206 @@ app.post('/api/login', asyncRoute(async (req, res) => {
 // -- Stage functions (writes), each restricted to the role responsible for it --
 
 app.post('/api/allocate', requireRole('government'), asyncRoute(async (req, res) => {
-  const { batchID, commodity, manufacturerName, manufacturingPlace, allocatedQty } = req.body;
+  const {
+    batchID,
+    commodity,
+    manufacturerName,
+    manufacturingPlace,
+    allocatedQty
+  } = req.body;
+
   await contract.submitTransaction(
-    'AllocateBatch', batchID, commodity, manufacturerName, manufacturingPlace, String(allocatedQty)
+    'AllocateBatch',
+    batchID,
+    commodity,
+    manufacturerName,
+    manufacturingPlace,
+    String(allocatedQty)
   );
+
+  try {
+    await syncBatchToSupabase(batchID);
+  } catch (err) {
+    console.error('Batch sync failed:', err.message);
+    return res.status(502).json({
+      status: 'fabric_success_sync_failed',
+      batchID,
+      message: 'Fabric allocation succeeded, but tracking synchronization failed.'
+    });
+  }
+
   res.json({ status: 'ok', batchID });
 }));
+
 
 app.post('/api/dispatch', requireRole('warehouse'), asyncRoute(async (req, res) => {
   const { batchID, dispatchedQty, sourceWarehouse, destinationShop } = req.body;
+
   await contract.submitTransaction(
-    'DispatchBatch', batchID, String(dispatchedQty), sourceWarehouse, destinationShop
+    'DispatchBatch',
+    batchID,
+    String(dispatchedQty),
+    sourceWarehouse,
+    destinationShop
   );
+
+  try {
+    await syncBatchToSupabase(batchID);
+  } catch (err) {
+    console.error('Batch sync failed:', err.message);
+    return res.status(502).json({
+      status: 'fabric_success_sync_failed',
+      batchID,
+      message: 'Fabric dispatch succeeded, but Supabase synchronization failed.'
+    });
+  }
+
   res.json({ status: 'ok', batchID });
 }));
+
+
 
 app.post('/api/receive', requireRole('shop'), asyncRoute(async (req, res) => {
   const { batchID, receivedQty } = req.body;
-  await contract.submitTransaction('ReceiveBatch', batchID, String(receivedQty));
+
+  await contract.submitTransaction(
+    'ReceiveBatch',
+    batchID,
+    String(receivedQty)
+  );
+
+  try {
+    await syncBatchToSupabase(batchID);
+  } catch (err) {
+    console.error('Batch sync failed:', err.message);
+    return res.status(502).json({
+      status: 'fabric_success_sync_failed',
+      batchID,
+      message: 'Fabric receipt succeeded, but Supabase synchronization failed.'
+    });
+  }
+
   res.json({ status: 'ok', batchID });
 }));
+
+
 
 app.post('/api/reject', requireRole('shop'), asyncRoute(async (req, res) => {
   const { batchID, reason } = req.body;
+
   await contract.submitTransaction('RejectBatch', batchID, reason);
+
+  try {
+    await syncBatchToSupabase(batchID);
+  } catch (err) {
+    console.error('Batch sync failed:', err.message);
+    return res.status(502).json({
+      status: 'fabric_success_sync_failed',
+      batchID,
+      message: 'Fabric rejection succeeded, but Supabase synchronization failed.'
+    });
+  }
+
   res.json({ status: 'ok', batchID });
 }));
+
+
 
 app.post('/api/return', requireRole('shop'), asyncRoute(async (req, res) => {
   const { batchID, qty } = req.body;
+
   await contract.submitTransaction('ReturnStock', batchID, String(qty));
+
+  try {
+    await syncBatchToSupabase(batchID);
+  } catch (err) {
+    console.error('Batch sync failed:', err.message);
+    return res.status(502).json({
+      status: 'fabric_success_sync_failed',
+      batchID,
+      message: 'Fabric stock return succeeded, but Supabase synchronization failed.'
+    });
+  }
+
   res.json({ status: 'ok', batchID });
 }));
+
+
 
 app.post('/api/close', requireRole('shop', 'auditor'), asyncRoute(async (req, res) => {
   const { batchID } = req.body;
+
   await contract.submitTransaction('CloseBatch', batchID);
+
+  try {
+    await syncBatchToSupabase(batchID);
+  } catch (err) {
+    console.error('Batch sync failed:', err.message);
+    return res.status(502).json({
+      status: 'fabric_success_sync_failed',
+      batchID,
+      message: 'Fabric batch closure succeeded, but Supabase synchronization failed.'
+    });
+  }
+
   res.json({ status: 'ok', batchID });
 }));
 
+
+
 app.post('/api/sell', requireRole('shop'), asyncRoute(async (req, res) => {
   const { batchID, beneficiaryID, entitledQty, actualQtyReceived, shopName } = req.body;
+
   await contract.submitTransaction(
-    'SellToBeneficiary', batchID, beneficiaryID,
-    String(entitledQty), String(actualQtyReceived), shopName
+    'SellToBeneficiary',
+    batchID,
+    beneficiaryID,
+    String(entitledQty),
+    String(actualQtyReceived),
+    shopName
   );
+
+  try {
+    await syncBatchToSupabase(batchID);
+  } catch (err) {
+    console.error('Batch sync failed:', err.message);
+    return res.status(502).json({
+      status: 'fabric_success_sync_failed',
+      batchID,
+      beneficiaryID,
+      message: 'Fabric sale succeeded, but Supabase synchronization failed.'
+    });
+  }
+
   res.json({ status: 'ok', batchID, beneficiaryID });
 }));
 
+
+
 app.post('/api/complaint', requireRole('beneficiary'), asyncRoute(async (req, res) => {
   const { beneficiaryID, batchID, reason } = req.body;
-  await contract.submitTransaction('FileComplaint', beneficiaryID, batchID, reason);
+
+  await contract.submitTransaction(
+    'FileComplaint',
+    beneficiaryID,
+    batchID,
+    reason
+  );
+
+  try {
+    await syncBatchToSupabase(batchID);
+  } catch (err) {
+    console.error('Batch sync failed:', err.message);
+    return res.status(502).json({
+      status: 'fabric_success_sync_failed',
+      batchID,
+      message: 'Fabric complaint succeeded, but batch synchronization failed.'
+    });
+  }
+
   res.json({ status: 'ok', beneficiaryID, batchID });
 }));
+
 
 // -- Query functions (reads) --
 
@@ -284,9 +508,8 @@ app.get('/api/public/qr/:batchID', asyncRoute(async (req, res) => {
   if (!record || !record.batchID) {
     return res.status(404).json({ error: 'Batch not found' });
   }
-
   const trackingURL =
-  `https://adoption-tier-diverse-violation.trycloudflare.com/api/public/track/${encodeURIComponent(batchID)}`;
+  `https://rationtrace-frontend.onrender.com/track/${encodeURIComponent(batchID)}`;
 
   const qrCode = await QRCode.toDataURL(trackingURL);
 
@@ -297,101 +520,78 @@ app.get('/api/public/qr/:batchID', asyncRoute(async (req, res) => {
   });
 }));
 // ```
+
 app.get('/api/public/track/:batchID', asyncRoute(async (req, res) => {
   const batchID = String(req.params.batchID || '').trim();
 
   if (!batchID || !/^[a-zA-Z0-9_-]{1,80}$/.test(batchID)) {
-    return res.status(400).json({
-      error: 'Invalid batch ID',
-    });
+    return res.status(400).json({ error: 'Invalid batch ID' });
   }
 
-  let record;
+  const { data, error } = await supabase
+    .from('batch_tracking')
+    .select('*')
+    .eq('batch_id', batchID)
+    .maybeSingle();
 
-  try {
-    const result = await contract.evaluateTransaction(
-      'GetBatchHistory',
-      batchID
-    );
-
-    record = parseResult(result);
-  } catch (err) {
-    // Return 404 for a batch that does not exist.
-    if (/does not exist|not found|no record/i.test(err.message || '')) {
-      return res.status(404).json({
-        error: 'Batch not found',
-        batchID,
-      });
-    }
-
-    throw err;
+  if (error) {
+    console.error('Public tracking lookup failed:', error.message);
+    return res.status(500).json({ error: 'Tracking lookup failed' });
   }
 
-  if (!record || !record.batchID) {
+  if (!data) {
     return res.status(404).json({
       error: 'Batch not found',
-      batchID,
+      batchID
     });
   }
 
-  // Build a public timeline without exposing internal audit identities.
-  const statusOrder = [
-    'ALLOCATED',
-    'DISPATCHED',
-    'RECEIVED',
-    'SELLING',
-    'CLOSED',
-    'REJECTED',
-  ];
-
-  const currentStatus = String(record.status || 'ALLOCATED').toUpperCase();
-  const currentIndex = statusOrder.indexOf(currentStatus);
+  const trackingData = data.tracking_data || {};
+  const currentStatus = String(data.status || 'ALLOCATED').toUpperCase();
 
   const timeline = [
     {
       stage: 'Allocated',
       completed: true,
-      timestamp: record.createdAt || null,
+      timestamp: trackingData.createdAt || null
     },
     {
       stage: 'Dispatched',
-      completed: ['DISPATCHED', 'RECEIVED', 'SELLING', 'CLOSED'].includes(currentStatus),
-      timestamp: null,
+      completed: Number(data.dispatched_quantity || 0) > 0,
+      timestamp: null
     },
     {
       stage: 'Received',
-      completed: ['RECEIVED', 'SELLING', 'CLOSED'].includes(currentStatus),
-      timestamp: null,
+      completed: Number(data.delivered_quantity || 0) > 0,
+      timestamp: null
     },
     {
       stage: 'Sale',
-      completed: ['SELLING', 'CLOSED'].includes(currentStatus),
-      timestamp: null,
+      completed: Number(trackingData.soldQty || 0) > 0,
+      timestamp: null
     },
     {
       stage: currentStatus === 'REJECTED' ? 'Rejected' : 'Closed',
-      completed: currentStatus === 'CLOSED' || currentStatus === 'REJECTED',
-      timestamp: currentStatus === 'CLOSED' || currentStatus === 'REJECTED'
-        ? record.lastUpdatedAt || null
-        : null,
-    },
+      completed: ['CLOSED', 'REJECTED'].includes(currentStatus),
+      timestamp: ['CLOSED', 'REJECTED'].includes(currentStatus)
+        ? data.last_updated
+        : null
+    }
   ];
 
-  // Do not return auditTrail, discrepancyLog, beneficiary data,
-  // or blockchain identity details from this public endpoint.
   res.json({
-    batchID: record.batchID,
-    commodity: record.commodity,
+    batchID: data.batch_id,
+    commodity: data.commodity,
     status: currentStatus,
-    allocatedQty: record.allocatedQty,
-    dispatchedQty: record.dispatchedQty,
-    receivedQty: record.receivedQty,
-    soldQty: record.soldQty,
-    returnedQty: record.returnedQty,
-    discrepancyFlag: Boolean(record.discrepancyFlag),
-    discrepancySeverity: record.discrepancySeverity || 'NONE',
-    lastUpdatedAt: record.lastUpdatedAt || null,
-    timeline,
+    allocatedQty: Number(data.allocated_quantity || 0),
+    dispatchedQty: Number(data.dispatched_quantity || 0),
+    receivedQty: Number(data.delivered_quantity || 0),
+    soldQty: Number(trackingData.soldQty || 0),
+    returnedQty: Number(trackingData.returnedQty || 0),
+    discrepancyFlag: Boolean(trackingData.discrepancyFlag),
+    discrepancySeverity: trackingData.discrepancySeverity || 'NONE',
+    lastUpdatedAt: data.last_updated || null,
+    timeline
   });
 }));
 
@@ -407,7 +607,7 @@ const PORT = 3000;
 
 connectToFabric()
   .then(() => {
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
       console.log(`RationTrace backend listening on http://localhost:${PORT}`);
       console.log('Demo accounts: government/gov123, warehouse/wh123, shop/shop123, auditor/audit123, beneficiary/ben123');
     });

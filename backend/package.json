@@ -13,10 +13,13 @@
   "dependencies": {
     "@grpc/grpc-js": "^1.14.4",
     "@hyperledger/fabric-gateway": "^1.11.0",
+    "@supabase/supabase-js": "^2.109.0",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
+    "dotenv": "^18.0.8",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
-    "qrcode": "^1.5.4"
+    "qrcode": "^1.5.4",
+    "ws": "^8.22.0"
   }
 }
