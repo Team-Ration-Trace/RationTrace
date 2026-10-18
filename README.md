@@ -2,7 +2,7 @@ RationTrace
 Blockchain-Based Public Distribution System (PDS) Tracking and Discrepancy Detection
 RationTrace is a prototype for tracking ration batches through allocation, dispatch, receipt at a fair price shop, and beneficiary distribution. It uses a permissioned Hyperledger Fabric network to record operational transactions and provides a QR-linked public batch-tracking page.
 Project Repository
-GitHub: https://github.com/vinitha-jaisankar/Ration-trace
+GitHub: https://github.com/Team-Ration-Trace/RationTrace
 Features
 - Role-based interfaces for government allocation, warehouse dispatch, ration-shop receipt and beneficiary sale.
 - Batch-level tracking across distribution stages.
@@ -37,8 +37,8 @@ Install the following tools before running the project:
 - A Supabase project for the public tracking feature
 The commands below are based on the development setup used for this project. Exact package and Fabric versions should be checked against the project files and local environment.
 1. Clone the Repository
-git clone https://github.com/vinitha-jaisankar/Ration-trace.git
-cd Ration-trace
+git clone https://github.com/Team-Ration-Trace/RationTrace.git
+cd RationTrace
 If you already have the project cloned, open that folder instead of cloning it again.
 2. Configure Environment Variables Safely
 Check the backend and frontend for their required environment-variable names before creating local environment files.
